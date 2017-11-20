@@ -43,7 +43,7 @@ def translate(op)
   end
 end
 
-# Used when checking the 0x0nnn opcode to make sure the opcode isn't actually 0x000
+# Used when checking the 0x0nnn opcode to make sure the opcode isn't actually 0x0000
 def check_last_byte(op, value)
   return true if op[2..-1].to_i > value
 end
