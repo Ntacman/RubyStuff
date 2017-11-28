@@ -1,12 +1,12 @@
 require 'YAML'
 
-class Baterators
+module Baterators
   @config = nil
   PLZ_CONFIGURE = 'Please configure Baterators'
 
   # Function to use specific config file. If it loads successfully
   # generate functions using the value provided for each key in the yml.
-  def self.use_config_file(path)
+  def use_config_file(path)
     begin
       @config = YAML.load_file(path)
     rescue Errno::ENOENT
@@ -18,15 +18,15 @@ class Baterators
     end # begin block
   end # use_config_path
 
+  protected
   # small function to return utf-8 character from a provided utf code string
-  def self.utf_code_to_str(utf_code)
+  def utf_code_to_str(utf_code)
     u_hex = utf_code[2..-1]
     return ["#{u_hex}".to_i(16)].pack 'U'
   end
 
   # Dynamically create class methods for each utf-8 code found in the YML file
-  private
-  def self.create_emoji_methods
+  def create_emoji_methods
     @config.each_pair do |key, value|
       emoji = self.utf_code_to_str(key)
       emoji.to_sym
@@ -39,4 +39,4 @@ class Baterators
     end # end define_singleton
     end # config.each_pair
   end # end create_emoji_methods
-end # end class
+end # end module
